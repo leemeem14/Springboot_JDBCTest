@@ -5,10 +5,9 @@ import kr.ac.kopo.lyh.springboot_jdbctest.repository.MemberRepository03;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/exam03")
@@ -22,11 +21,17 @@ public class Example03Controller {
         model.addAttribute("memberList",memberList);
         return "viewPage03";
     }
-//    @GetMapping("/new")
-//    public String newMethod(Model model){
-//        Member member = new Member();
-//        model.addAttribute("member",member);
-//        return "viewPage03_new";
-//    }
+    @GetMapping("/new")
+    public String newMethod(Model model){
+        model.addAttribute("member",new Member());
+        return "viewPage03_new";
+    }
+    @PostMapping("/insert")
+    public String insertMethod(@ModelAttribute("member")Member member){
+        repository.insertMethod(member.getName(),member.getAge(),member.getEmail());
+        return "redirect:/exam03";
+    }
+
+
 
 }
